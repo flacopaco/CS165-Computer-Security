@@ -1,0 +1,68 @@
+* Operating system: Linux.
+* Software required: IDA Pro. 
+* Reference book: The IDA PRO book, by Chris Eagle. 
+* Other reference: Intel 64 and IA-32 Architectures Software Developer's Manual. Volume 2 (2A, 2B & 2C): Instruction Set Reference, A-Z
+
+In this project, you will be given a vulnerable binary that is hosted on our lab server (the same as the first project) at :/home/admin/try_me and exploit the buffer overflow vulnerability in it. 
+The fake admin directory hosting the file is protected by Linux file permission so you won't be able to create or delete files in it. However, by exploiting the vulnerability, your goal is to instruct the program to create files in the directory for you. You will be given the corresponding source file to help you understand the logic of the program. 
+
+To carry out the project, you need to understand a few things which will be covered in class and lab sessions:
+- Basic assembly language knowledge
+- Stack layout
+- Function calling convention
+- Stack buffer overflow vulnerability
+
+
+
+Part 1: buffer overflow the program to create the file "uid_[uid]_crack" in the /home/admin/ directory.
+
+The uid_[uid]_crack file is a proof that you have successfully exploited the vulnerability. The [uid] will be your actual user id. For instance, if team0 is your user name and the corresponding uid is 2000, then the file you generate should be uid_2000_crack.
+
+Workflow:
+- Locate the opportunity for buffer overflow.
+- Overwrite the stack to change the stored EBP and return address.
+- Jump to the correct location in log_result() to cause the file creation.
+
+Submission requirement: 
+- (1 point) Create the correct file in the /home/admin/ directory. 
+- (1 point) The complete input provided to the binary (exploit payload).
+- (2 points) Documentation detailing the methodology and thought process. Figures can be used to illustrate the attack steps.  Please limit it to 1 page for this task.
+- (1 bonus points) Do not let the program crash.
+
+
+
+Part 2: buffer overflow the program to create the file "uid_[uid]_crack_advanced" in the /home/admin/ directory.
+
+The uid_[uid]_crack_advanced file is again used as a proof that you have successfully completed the challenge. The workflow is the same except that now you will need to return to log_result_advanced(int) and make sure that the file open operation is successfully invoked.
+
+Hint: the argument to log_result_advanced(int) can be prepared on stack also.
+
+Submission requirement: 
+- (2 point) Create the correct file in the /home/admin/ directory. 
+- (2 point) The complete input provided to the binary (exploit payload).
+- (2 points) Documentation detailing the methodology and thought process. Please limit it to 1 page for this task.
+
+
+
+Part 3: 
+
+Create a uid_[uid]_crack_super file in the /home/admin/ directory.
+
+Submission requirement: 
+- (3 points) The complete input provided to the binary (exploit payload)
+- (3 points) Documentation detailing the methodology and thought process. Please limit it to 1 page for this task.
+
+
+
+Part 4 (bonus):
+
+Create a shell with the privilege of the admin group (verified by TA in lab)
+
+Submission requirement:
+- (2 bonus point) The complete input provided to the binary (exploit payload)
+- (1 bonus point) Documentation detailing the methodology and thought process. Please limit it to 1 page for this task.
+
+
+
+
+General hints: You can copy the binary locally and dissect it using any disassembler. You can use "gdb" on the target machine to understand its behavior. However, when debugging the setuid program, even if you can "exploit" it, you are not actually achieving the goal. In addition, the stack address will be different between the debugging run and a regular run. See http://www.mathyvanhoef.com/2012/11/common-pitfalls-when-writing-exploits.html for details.
